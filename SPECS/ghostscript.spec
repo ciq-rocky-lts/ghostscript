@@ -34,7 +34,7 @@
 Name:             ghostscript
 Summary:          Interpreter for PostScript language & PDF
 Version:          9.25
-Release:          9%{?dist}
+Release:          9%{?dist}.1
 
 License:          AGPLv3+
 
@@ -432,6 +432,9 @@ install -m 0755 -d %{buildroot}%{_sysconfdir}/%{name}/
 # =============================================================================
 
 %changelog
+* Tue Jul 09 2024 Neil Hanlon <nhanlon@ciq.com> - 9.25-9.1
+- rebuild for multilib
+
 * Thu Jun 21 2024 Matt Hink <mhink@ciq.com> - 9.25-9
 - fix for CVE-2024-33871. Was okay in the first place on 9.25-7. Was ensuring correctness.
 
