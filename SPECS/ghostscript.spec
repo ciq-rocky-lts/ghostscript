@@ -34,7 +34,7 @@
 Name:             ghostscript
 Summary:          Interpreter for PostScript language & PDF
 Version:          9.25
-Release:          9%{?dist}.1
+Release:          10%{?dist}.1
 
 License:          AGPLv3+
 
@@ -109,6 +109,8 @@ Patch017: ghostscript-cve-2019-14817.patch
 Patch018: ghostscript-cve-2019-14869.patch
 Patch019: CVE-2023-28879.patch
 Patch020: CVE-2024-33871.patch
+Patch021: CVE-2024-46951.patch
+Patch022: CVE-2024-46953.patch
 
 # Downstream patches -- these should be always included when doing rebase:
 # ------------------
@@ -432,6 +434,9 @@ install -m 0755 -d %{buildroot}%{_sysconfdir}/%{name}/
 # =============================================================================
 
 %changelog
+* Thu Jan 02 2025 Anmol Jain <ajain@ciq.com> - 9.25-10.1
+- fix for CVE-2024-46951 & CVE-2024-46953
+
 * Tue Jul 09 2024 Neil Hanlon <nhanlon@ciq.com> - 9.25-9.1
 - rebuild for multilib
 
