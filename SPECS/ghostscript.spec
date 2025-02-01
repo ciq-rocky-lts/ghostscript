@@ -42,7 +42,7 @@
 Name:             ghostscript
 Summary:          Interpreter for PostScript language & PDF
 Version:          9.54.0
-Release:          16%{?dist}
+Release:          18%{?dist}
 
 License:          AGPLv3+
 
@@ -115,7 +115,15 @@ Patch010: ghostscript-9.54.0-CVE-2023-38559.patch
 Patch011: ghostscript-9.54.0-CVE-2023-43115.patch
 # RHEL-39110 CVE-2024-33871 ghostscript: OPVP device arbitrary code execution via custom Driver library
 Patch012: gs-cve-2024-33871.patch
-
+# RHEL-44759 CVE-2024-33870 ghostscript: path traversal to arbitrary files if the current directory is in the permitted paths
+Patch013: gs-CVE-2024-33870.patch
+# RHEL-44745 CVE-2024-33869 ghostscript: path traversal and command execution due to path reduction
+Patch014: gs-CVE-2024-33869.patch
+# RHEL-44731 CVE-2024-29510 ghostscript: format string injection leads to shell command execution (SAFER bypass)
+Patch015: 0001-Uniprint-device-prevent-string-configuration-changes.patch
+Patch016: 0001-CVE-2024-46951.patch
+Patch017: 0002-CVE-2024-46953.patch
+Patch018: 0003-CVE-2024-46956.patch
 # Downstream patches -- these should be always included when doing rebase:
 # ------------------
 # Downstream patches for RHEL -- patches that we keep only in RHEL for various
@@ -448,6 +456,13 @@ done
 # =============================================================================
 
 %changelog
+* Tue Jan 28 2025 Anmol Jain <ajain@ciq.com> - 9.54.0-18
+- Fix CVE-2024-46951, CVE-2024-46953 & CVE-2024-46956
+* Mon Jul 08 2024 Zdenek Dohnal <zdohnal@redhat.com> - 9.54.0-17
+- RHEL-44759 CVE-2024-33870 ghostscript: path traversal to arbitrary files if the current directory is in the permitted paths
+- RHEL-44745 CVE-2024-33869 ghostscript: path traversal and command execution due to path reduction
+- RHEL-44731 CVE-2024-29510 ghostscript: format string injection leads to shell command execution (SAFER bypass)
+
 * Thu Jun 13 2024 Zdenek Dohnal <zdohnal@redhat.com> - 9.54.0-16
 - RHEL-39110 fix regression discovered in OPVP device
 
