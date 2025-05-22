@@ -42,7 +42,7 @@
 Name:             ghostscript
 Summary:          Interpreter for PostScript language & PDF
 Version:          9.54.0
-Release:          18%{?dist}
+Release:          18%{?dist}.1
 
 License:          AGPLv3+
 
@@ -124,6 +124,11 @@ Patch015: 0001-Uniprint-device-prevent-string-configuration-changes.patch
 Patch016: 0001-CVE-2024-46951.patch
 Patch017: 0002-CVE-2024-46953.patch
 Patch018: 0003-CVE-2024-46956.patch
+# RHEL-67051 CVE-2024-46954 ghostscript: Directory Traversal in Ghostscript via Overlong UTF-8 Encoding
+# implementing decode_utf8() https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=4fcf527584da2053
+# CVE fix, updated for gp_wutf8() in 9.27 https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=282f691f5e57b6b
+Patch019: 0001-Bug-705911-Fix-Ghostscript-s-encoding-decoding-of-UT.patch
+Patch020: 0001-CVE-2024-46954.patch
 # Downstream patches -- these should be always included when doing rebase:
 # ------------------
 # Downstream patches for RHEL -- patches that we keep only in RHEL for various
@@ -456,8 +461,12 @@ done
 # =============================================================================
 
 %changelog
+* Fri May 09 2025 Anmol Jain <ajain@ciq.com> - 9.54.0-18.1
+- Fix CVE-2024-46954
+
 * Tue Jan 28 2025 Anmol Jain <ajain@ciq.com> - 9.54.0-18
 - Fix CVE-2024-46951, CVE-2024-46953 & CVE-2024-46956
+
 * Mon Jul 08 2024 Zdenek Dohnal <zdohnal@redhat.com> - 9.54.0-17
 - RHEL-44759 CVE-2024-33870 ghostscript: path traversal to arbitrary files if the current directory is in the permitted paths
 - RHEL-44745 CVE-2024-33869 ghostscript: path traversal and command execution due to path reduction
