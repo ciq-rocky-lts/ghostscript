@@ -1,7 +1,8 @@
 From 4fcf527584da20538ebf9c3c43c3fda25d97cd18 Mon Sep 17 00:00:00 2001
 From: Robin Watts <Robin.Watts@artifex.com>
 Date: Tue, 4 Oct 2022 17:36:56 +0100
-Subject: Bug 705911: Fix Ghostscript's encoding/decoding of UTF-8 from UTF-16.
+Subject: [PATCH] Bug 705911: Fix Ghostscript's encoding/decoding of UTF-8 from
+ UTF-16.
 
 We were not coping with high/low surrogate pairs in UTF-16,
 meaning that we could encode/decode strings fine for our own
@@ -12,19 +13,13 @@ surrogate pairs.
 Thanks to Pete, Joseph and Fred for their help here, and to Silver
 for having spotted it!
 ---
- base/gp_wutf8.c | 162 ++++++++++++++++++++++++++++++++++++++++++++------------
+ base/gp_wutf8.c | 162 +++++++++++++++++++++++++++++++++++++-----------
  1 file changed, 127 insertions(+), 35 deletions(-)
 
 diff --git a/base/gp_wutf8.c b/base/gp_wutf8.c
 index b7b1d0758..920114cd1 100644
 --- a/base/gp_wutf8.c
 +++ b/base/gp_wutf8.c
-@@ -1,4 +1,4 @@
--/* Copyright (C) 2001-2021 Artifex Software, Inc.
-+/* Copyright (C) 2001-2022 Artifex Software, Inc.
-    All Rights Reserved.
- 
-    This software is provided AS-IS with no warranty, either express or
 @@ -16,6 +16,56 @@
  
  #include "windows_.h"
@@ -240,4 +235,5 @@ index b7b1d0758..920114cd1 100644
          }
      }
 -- 
-cgit v1.2.3
+2.49.0
+

@@ -1,32 +1,12 @@
-From 282f691f5e57b6bf55ba51ad8c2be2cce8edb938 Mon Sep 17 00:00:00 2001
-From: Robin Watts <Robin.Watts@artifex.com>
-Date: Tue, 18 Jun 2024 18:22:55 +0100
-Subject: Bug 707788: Fix decode_utf8 to forbid overlong encodings.
-
-These can be used by malicious code to escape directories.
-
-CVE-2024-46954
-
-Co-authored-by: Anmol Jain <ajain@ciq.com>
----
- base/gp_wutf8.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
-
 diff --git a/base/gp_wutf8.c b/base/gp_wutf8.c
-index 920114c..8f1aefd 100644
+index 56bedc1..23fcdd1 100644
 --- a/base/gp_wutf8.c
 +++ b/base/gp_wutf8.c
-@@ -1,4 +1,4 @@
--/* Copyright (C) 2001-2022 Artifex Software, Inc.
-+/* Copyright (C) 2001-2024 Artifex Software, Inc.
-    All Rights Reserved.
- 
-    This software is provided AS-IS with no warranty, either express or
 @@ -25,12 +25,16 @@ decode_utf8(const char **inp, unsigned int i)
      if (i < 0x80) {
      } else if ((i & 0xE0) == 0xC0) {
          i &= 0x1F;
-+	if (i == 0)
++        if (i == 0)
 +            goto fail_overlong;
          c = (unsigned char)*in++;
          if ((c & 0xC0) != 0x80)
@@ -34,7 +14,7 @@ index 920114c..8f1aefd 100644
          i = (i<<6) | (c & 0x3f);
      } else if ((i & 0xF0) == 0xE0) {
          i &= 0xF;
-+	if (i == 0)
++        if (i == 0)
 +            goto fail_overlong;
          c = (unsigned char)*in++;
          if ((c & 0xC0) != 0x80)
@@ -60,6 +40,3 @@ index 920114c..8f1aefd 100644
         i = 0xfffd;
      }
      *inp = in;
--- 
-2.43.5
-
